@@ -40,7 +40,7 @@ const Header = (props: Props) => {
             </div>
 
             {/* End of header */}
-            <div className="flex items-center ">
+            <div className="flex items-center gap-1">
 
                <div className="flex justify-center items-center p-1 rounded-sm bg-transparent hover:bg-white/10 cursor-pointer">
                   <MessageCircle className="size-4 text-white" />
