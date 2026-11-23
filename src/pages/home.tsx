@@ -10,18 +10,18 @@ const Home = ({ }: Props) => {
       <div>
          <Header />
 
-         <div className="grid grid-cols-[1fr_auto_1fr] gap-20">
-            <div className="pl-20 py-6 text-nowrap">
+         <div className="mx-auto grid max-w-316 gap-4 px-4 py-4 lg:grid-cols-[15.5rem_1fr] xl:grid-cols-[15.5rem_1fr_18.75rem]">
+            <aside className="hidden lg:block">
                <LeftIcons />
-            </div>
+            </aside>
 
-            <div className="flex flex-col mt-8">
+            <main className="min-w-0">
                <Posts />
-            </div>
+            </main>
 
-            <div className="py-7">
+            <aside className="hidden xl:block">
                <RightIcons />
-            </div>
+            </aside>
          </div>
       </div>
    )

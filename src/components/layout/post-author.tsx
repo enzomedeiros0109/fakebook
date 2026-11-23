@@ -6,7 +6,7 @@ type PostAuthorProps = {
    name: string
    children?: ReactNode
    className?: string
-   iconClassName?: string
+   avatarClassName?: string
    nameClassName?: string
 }
 
@@ -14,16 +14,16 @@ const PostAuthor = ({
    name,
    children,
    className,
-   iconClassName,
+   avatarClassName,
    nameClassName,
 }: PostAuthorProps) => (
-   <div className={cn("flex gap-2 items-center", className)}>
-      <div className="p-1 h-fit border border-black rounded-full">
-         <User className={cn("size-8", iconClassName)} />
+   <div className={cn("flex gap-3 items-center", className)}>
+      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-full border", avatarClassName)}>
+         <User className="size-1/2 text-muted-foreground" />
       </div>
 
       <div className="flex flex-col">
-         <p className={nameClassName}>{name}</p>
+         <p className={cn("text-[15px]", nameClassName)}>{name}</p>
          {children}
       </div>
    </div>

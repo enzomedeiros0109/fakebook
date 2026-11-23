@@ -1,13 +1,13 @@
-import { FaceSlightlySmiling, Heart, Image, MessageCircle, Share2, ThumbsUp, User, Video } from "lucide-react"
+import { Ellipsis, FaceSlightlySmiling, Globe, Heart, Image, MessageCircle, Share2, ThumbsUp, User, Video } from "lucide-react"
 import { Input } from "../ui/input"
 import PostAuthor from "./post-author"
 
 type Props = {}
 
 const writePostIcons = [
-   { Icon: Video, name: "Live Video" },
-   { Icon: Image, name: "Photo/Video" },
-   { Icon: FaceSlightlySmiling, name: "Feeling/Activity" },
+   { Icon: Video, name: "Live video", color: "text-destructive" },
+   { Icon: Image, name: "Photo/video", color: "text-chart-3" },
+   { Icon: FaceSlightlySmiling, name: "Feeling/activity", color: "text-chart-4" },
 ]
 
 const PostIcons = [
@@ -19,7 +19,9 @@ const PostIcons = [
 type Post = {
    name: string
    postedAt: string
+   title: string
    body: string
+   image?: string
    likes: number
    comments: number
    shares: number
@@ -56,6 +58,7 @@ export const posts: Post[] = [
    {
       name: "Torla",
       postedAt: new Date(Date.now() - 5 * minute).toISOString(),
+      title: "Slow afternoon",
       body: "Enjoying a quiet afternoon with a good book.",
       likes: 24,
       comments: 5,
@@ -64,7 +67,9 @@ export const posts: Post[] = [
    {
       name: "Marina",
       postedAt: new Date(Date.now() - 5 * hour).toISOString(),
+      title: "Coffee break",
       body: "Found a new favorite spot for coffee today!",
+      image: "https://picsum.photos/seed/fakebook/680/360",
       likes: 38,
       comments: 8,
       shares: 3,
@@ -72,6 +77,7 @@ export const posts: Post[] = [
    {
       name: "Lucas",
       postedAt: new Date(Date.now() - 5 * day).toISOString(),
+      title: "Outside for a while",
       body: "A little fresh air makes a big difference.",
       likes: 17,
       comments: 2,
@@ -80,6 +86,7 @@ export const posts: Post[] = [
    {
       name: "Sofia",
       postedAt: new Date(Date.now() - 5 * week).toISOString(),
+      title: "Dinner night",
       body: "Made dinner for friends and it was a success.",
       likes: 52,
       comments: 11,
@@ -88,7 +95,8 @@ export const posts: Post[] = [
    {
       name: "Andre",
       postedAt: new Date(Date.now() - 5 * year).toISOString(),
-      body: "Weekend plans: explore somewhere new.",
+      title: "Weekend plans",
+      body: "Explore somewhere new.",
       likes: 31,
       comments: 6,
       shares: 2,
@@ -99,21 +107,20 @@ const Posts = ({ }: Props) => {
    return (
       <div className="flex flex-col gap-4">
 
-
          {/* Write Post Component*/}
-         <div className="flex flex-col gap-4 bg-card rounded-md p-3 w-150">
+         <div className="flex flex-col gap-3 bg-card rounded-lg p-4 shadow-sm">
 
-            <div className="flex gap-4 pb-3 items-center border-b">
-               <div className="border border-blue-600 p-1 rounded-full ">
-                  <User className="text-blue-600" />
+            <div className="flex gap-3 pb-3 items-center border-b">
+               <div className="flex size-10 shrink-0 items-center justify-center rounded-full border">
+                  <User className="size-1/2 text-muted-foreground" />
                </div>
-               <Input className="w-full bg-accent" placeholder="What's on your mind?" />
+               <Input className="h-10 rounded-full border-none bg-secondary px-4 text-[15px]" placeholder="What's on your mind, Jesse?" />
             </div>
 
-            <div className="flex justify-evenly mb-2">
-               {writePostIcons.map(({ Icon, name }) => (
-                  <div className="flex gap-2 items-center justify-center p-1 rounded-sm bg-transparent hover:bg-blue-500/10 cursor-pointer">
-                     <Icon className={`${Icon === Video ? "text-red-500" : Icon === Image ? "text-green-500" : "text-yellow-500"} size-5`} />
+            <div className="flex">
+               {writePostIcons.map(({ Icon, name, color }) => (
+                  <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
+                     <Icon className={`size-4.5 ${color}`} />
                      <p className="text-sm text-muted-foreground">{name}</p>
                   </div>
                ))}
@@ -121,48 +128,53 @@ const Posts = ({ }: Props) => {
          </div>
 
          {/* Posts Componentes*/}
-         {posts.map((post: Post) => (
-            <div className="flex flex-col gap-1 bg-card rounded-md p-2 w-150 shadow-md">
+         {posts.map((post) => (
+            <article key={`${post.name}-${post.postedAt}`} className="flex flex-col bg-card rounded-lg shadow-sm overflow-hidden">
 
-               <PostAuthor name={post.name} iconClassName="size-6">
-                  <time className="text-muted-foreground text-sm" dateTime={post.postedAt}>
-                     {formatPostedAt(post.postedAt)}
-                  </time>
-               </PostAuthor>
-
-               <div className="flex flex-col gap-2">
-                  <p className="text-sm text-nowrap">
-                     {post.body}
-                  </p>
-
-                  <div className="flex justify-between">
-                     <div className="flex items-center gap-1">
-                        <ThumbsUp className="size-3 text-blue-500" />
-                        <Heart className="size-3 text-red-500" />
-                        <p className="text-xs text-muted-foreground">{post.likes}</p>
+               <div className="flex items-start justify-between px-4 pt-3">
+                  <PostAuthor name={post.name}>
+                     <div className="flex gap-1 items-center text-xs text-muted-foreground">
+                        <time dateTime={post.postedAt}>{formatPostedAt(post.postedAt)}</time>
+                        <Globe className="size-3" />
                      </div>
+                  </PostAuthor>
 
-                     <div className="flex gap-3 text-sm text-muted-foreground">
+                  <button type="button" aria-label="Post options" className="flex size-8 items-center justify-center rounded-full hover:bg-blue-500/10 cursor-pointer">
+                     <Ellipsis className="size-5 text-muted-foreground" />
+                  </button>
+               </div>
 
-                        <p>{`${post.comments} Comments`}</p>
-                        <p>{`${post.shares} Shares`}</p>
-                     </div>
+               <div className="flex flex-col gap-1.5 px-4 py-3 text-[15px]">
+                  <p>{post.title}</p>
+                  <p>{post.body}</p>
+               </div>
+
+               {post.image && <img className="w-full object-cover" src={post.image} alt="" />}
+
+               <div className="flex justify-between px-4 py-2.5 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                     <ThumbsUp className="size-3.5 text-primary" />
+                     <Heart className="size-3.5 text-destructive" />
+                     <p>{post.likes}</p>
+                  </div>
+
+                  <div className="flex gap-2">
+                     <p>{`${post.comments} Comments`}</p>
+                     <p>{`${post.shares} Shares`}</p>
                   </div>
                </div>
 
-               <div className="flex justify-evenly p-2 border-t">
+               <div className="flex mx-4 py-1 border-t">
                   {PostIcons.map(({ Icon, name }) => (
-                     <div key={name} className="flex gap-2 p-1 items-center rounded-sm bg-transparent hover:bg-blue-500/10 cursor-pointer">
-                        <Icon className="size-4 text-muted-foreground" />
-                        <p className="text-muted-foreground">{name}</p>
+                     <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
+                        <Icon className="size-4.5 text-muted-foreground" />
+                        <p className="text-[15px] text-muted-foreground">{name}</p>
                      </div>
                   ))}
                </div>
 
-            </div>
+            </article>
          ))}
-
-
 
       </div>
    )

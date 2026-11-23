@@ -1,4 +1,4 @@
-import { Plus, Users } from "lucide-react"
+import { Ellipsis, Plus, Search, Users, Video } from "lucide-react"
 import PostAuthor from "./post-author"
 import Sponsor from "../../assets/mockup/counter-strike-2.png"
 
@@ -40,56 +40,67 @@ export const groups = [
    },
 ]
 
+const contactActions = [
+   { Icon: Video, name: "New video call" },
+   { Icon: Search, name: "Search contacts" },
+   { Icon: Ellipsis, name: "Contact options" },
+]
+
 const RightIcons = ({ }: Props) => {
    return (
-      <div className="flex flex-col gap-2 ">
-
-         <div className="flex flex-col pb-4 border-b-2">
-            <p className="text-muted-foreground">
-               Sponsored
-            </p>
-
-            <div className="flex gap-2 items-center">
-               <img className="size-30" src={Sponsor} alt="Sponsor image" />
-
-               <div className="flex flex-col">
-                  <h1 className="text-md">Counter-Strike 2 Out Now!</h1>
-                  <p className="text-muted-foreground">Try it on steam.com</p>
-               </div>
-            </div>
-         </div>
-
-         <div className="flex flex-col pb-4 border-b-2 gap-2">
-            <h1 className="text-muted-foreground">Contacts</h1>
-
-            <div className="flex flex-col gap-4">
-               {contacts.map((contact) => (
-                  <PostAuthor name={contact.name} iconClassName="size-6" />
-               ))}
-            </div>
-         </div>
+      <div className="flex flex-col gap-5">
 
          <div className="flex flex-col gap-2">
-            <h1 className="text-muted-foreground">Group Conversations</h1>
+            <h2 className="text-[17px] text-muted-foreground">Sponsored</h2>
 
-            <div className="flex flex-col">
-               {groups.map((group) => (
-                  <div className="flex gap-4 w-60 items-center p-1 rounded-sm bg-transparent hover:bg-blue-500/10 cursor-pointer">
-                     <div className="border border-black p-1 rounded-full hover:">
-                        <Users className="size-6" />
-                     </div>
+            <div className="flex gap-3 items-center">
+               <img className="size-27.5 shrink-0 rounded-lg object-cover" src={Sponsor} alt="Sponsor image" />
 
-                     <p>{group.name}</p>
-                  </div>
-               ))}
+               <div className="flex flex-col gap-1">
+                  <p className="text-sm">Counter-Strike 2 Out Now!</p>
+                  <p className="text-xs text-muted-foreground">steam.com</p>
+               </div>
+            </div>
+         </div>
+
+         <div className="flex flex-col gap-1">
+            <div className="flex items-center justify-between">
+               <h2 className="text-[17px] text-muted-foreground">Contacts</h2>
+
+               <div className="flex gap-1">
+                  {contactActions.map(({ Icon, name }) => (
+                     <button key={name} type="button" aria-label={name} className="flex size-7 items-center justify-center rounded-full hover:bg-blue-500/10 cursor-pointer">
+                        <Icon className="size-4 text-muted-foreground" />
+                     </button>
+                  ))}
+               </div>
             </div>
 
-            <div className="flex gap-4 w-60 items-center p-1 rounded-sm bg-transparent hover:bg-blue-500/10 cursor-pointer">
-               <div className="border border-black p-1 rounded-full">
-                  <Plus className="size-6" />
-               </div>
+            <div className="flex flex-col">
+               {contacts.map((contact) => (
+                  <PostAuthor
+                     key={contact.name}
+                     name={contact.name}
+                     className="h-11.5 px-1 rounded-md hover:bg-blue-500/10 cursor-pointer"
+                     avatarClassName="size-8"
+                  />
+               ))}
+            </div>
+         </div>
 
-               <p>Create a new group</p>
+         <div className="flex flex-col gap-1">
+            <h2 className="text-[17px] text-muted-foreground">Group conversations</h2>
+
+            <div className="flex flex-col">
+               {[...groups.map(({ name }) => ({ Icon: Users, name })), { Icon: Plus, name: "Create new group" }].map(({ Icon, name }) => (
+                  <div key={name} className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer">
+                     <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                        <Icon className="size-4" />
+                     </div>
+
+                     <p className="text-[15px]">{name}</p>
+                  </div>
+               ))}
             </div>
          </div>
 
