@@ -18,7 +18,7 @@ const PostAuthor = ({
    nameClassName,
 }: PostAuthorProps) => (
    <div className={cn("flex gap-3 items-center", className)}>
-      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-full border", avatarClassName)}>
+      <div className={cn("border flex size-10 shrink-0 items-center justify-center rounded-full", avatarClassName)}>
          <User className="size-1/2 text-muted-foreground" />
       </div>
 
