@@ -1,9 +1,9 @@
-import Header from "./components/layout/header"
+import Home from "./pages/home"
 
 function App() {
  return (
    <div className="min-h-screen bg-background">
-      <Header />
+      <Home />
    </div>
  )
 }
