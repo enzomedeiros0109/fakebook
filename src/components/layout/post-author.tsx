@@ -17,8 +17,8 @@ const PostAuthor = ({
    iconClassName,
    nameClassName,
 }: PostAuthorProps) => (
-   <div className={cn("flex gap-1 items-center", className)}>
-      <div className="p-1 h-fit border rounded-full">
+   <div className={cn("flex gap-2 items-center", className)}>
+      <div className="p-1 h-fit border border-black rounded-full">
          <User className={cn("size-8", iconClassName)} />
       </div>
 

@@ -10,8 +10,8 @@ const Home = ({ }: Props) => {
       <div>
          <Header />
 
-         <div className="grid grid-cols-3 ">
-            <div className="px-20 py-6 text-nowrap">
+         <div className="grid grid-cols-[1fr_auto_1fr] gap-20">
+            <div className="pl-20 py-6 text-nowrap">
                <LeftIcons />
             </div>
 
@@ -19,7 +19,9 @@ const Home = ({ }: Props) => {
                <Posts />
             </div>
 
-            <RightIcons />
+            <div className="py-7">
+               <RightIcons />
+            </div>
          </div>
       </div>
    )

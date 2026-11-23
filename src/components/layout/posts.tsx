@@ -162,7 +162,7 @@ const Posts = ({ }: Props) => {
             </div>
          ))}
 
-         
+
 
       </div>
    )
