@@ -49,8 +49,8 @@ const RightIcons = ({ }: Props) => {
                Sponsored
             </p>
 
-            <div className="flex gap-1">
-               <img src={Sponsor} alt="Sponsor image" />
+            <div className="flex gap-2 items-center">
+               <img className="size-30" src={Sponsor} alt="Sponsor image" />
 
                <div className="flex flex-col">
                   <h1 className="text-md">Counter-Strike 2 Out Now!</h1>
