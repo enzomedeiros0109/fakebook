@@ -1,3 +1,5 @@
+import Intro from "@/components/layout/profile-page/intro"
+import Photos from "@/components/layout/profile-page/photos"
 import { Button } from "@/components/ui/button"
 import { MessageCircle, Pen, Plus, PlusCircle, User } from "lucide-react"
 
@@ -8,14 +10,14 @@ type Props = {
 const Profile = ({ isOwner }: Props) => {
 
    return (
-      <div className="flex flex-col w-full h-100 items-center justify-center bg-card">
+      <div className="flex flex-col w-full h-125 items-center justify-center bg-card">
          <div className="flex flex-col items-center gap-4">
             <div className="border flex size-40 shrink-0 items-center justify-center rounded-full bg-muted">
                <User className="size-25" />
             </div>
             <h1 className="text-center font-bold text-4xl">Lewis Hamilton</h1>
 
-            <p className="text-muted-foreground">LewisHamilton44 · 106 friends · 400 posts</p>
+            <p className="text-muted-foreground">lewishamilton · 106 friends · 400 posts</p>
          </div>
 
          <div className="mt-4">
@@ -45,6 +47,9 @@ const Profile = ({ isOwner }: Props) => {
                </div>
             )}
          </div>
+
+         {/* <Intro /> */}
+         {/* <Photos /> */}
       </div>
    )
 }

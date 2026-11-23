@@ -1,6 +1,6 @@
-import LeftIcons from "@/components/layout/left-icons"
+import LeftIcons from "@/components/layout/home-page/left-icons"
 import Posts from "@/components/layout/posts"
-import RightIcons from "@/components/layout/right-icons"
+import RightIcons from "@/components/layout/home-page/right-icons"
 
 type Props = {}
 

@@ -1,5 +1,5 @@
 import { Bookmark, Calendar, ChevronDown, CirclePlay, MessageSquare, Newspaper, Store, UsersRound } from "lucide-react"
-import PostAuthor from "./post-author"
+import PostAuthor from "../post-author"
 
 type Props = {}
 
