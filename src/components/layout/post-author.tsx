@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { User } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 type PostAuthorProps = {
    name: string
