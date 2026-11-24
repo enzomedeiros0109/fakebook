@@ -1,5 +1,5 @@
 import Header from "./components/layout/header"
-import Profile from "./pages/profile"
+import Profile from "./pages/profile-page"
 
 function App() {
   return (

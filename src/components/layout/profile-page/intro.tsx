@@ -14,7 +14,7 @@ const introInfos = [
 
 const Intro = ({}: Props) => {
   return (
-    <div className="flex flex-col p-4 gap-2 bg-card rounded-md items-start">
+    <div className="flex flex-col p-4 gap-2 bg-card rounded-lg items-start shadow-sm">
       <h1 className="font-bold text-2xl">Intro</h1>
 
       {introInfos.map( ({Icon, info}) => (
