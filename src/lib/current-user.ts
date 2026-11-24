@@ -1,4 +1,14 @@
 import ProfilePicMockup from "@/assets/mockup/profile-page/profile-pic-mockup.png"
+import Alonso from "@/assets/mockup/profile-page/friends/alonso.png"
+import Kovalainen from "@/assets/mockup/profile-page/friends/kovalainen.png"
+import Button from "@/assets/mockup/profile-page/friends/button.png"
+import Rosberg from "@/assets/mockup/profile-page/friends/rosberg.png"
+import Bottas from "@/assets/mockup/profile-page/friends/bottas.png"
+import Russell from "@/assets/mockup/profile-page/friends/russell.png"
+
+const photos = Object.values(
+   import.meta.glob<string>("@/assets/mockup/profile-page/photos/*.png", { eager: true, import: "default" }),
+)
 import type { FeedPost } from "@/hooks/use-posts"
 
 export const CURRENT_USER_ID = 0
@@ -39,7 +49,7 @@ export const CURRENT_USER = {
    lastName: "Hamilton",
    username: "lewishamilton",
    picture: ProfilePicMockup,
-   stats: { friends: 106, posts: 400 },
+   stats: { friends: 7, posts: 400 },
    details: {
       location: "Via Paolo Ferrari, 85, 41121 Modena MO, Itália",
       school: "The John Henry Newman School",
@@ -49,14 +59,14 @@ export const CURRENT_USER = {
       joined: "March 2007",
    },
    friends: [
-      { name: "Fernando Alonso", mutualFriends: 3 },
-      { name: "Heikki Kovalainen", mutualFriends: 2 },
-      { name: "Jenson Button", mutualFriends: 4 },
-      { name: "Nico Rosberg", mutualFriends: 5 },
-      { name: "Valtteri Bottas", mutualFriends: 4 },
-      { name: "George Russell", mutualFriends: 6 },
-      { name: "Charles Leclerc", mutualFriends: 3 },
-   ].map((friend) => ({ ...friend, picture: `https://picsum.photos/seed/${encodeURIComponent(friend.name)}/320/150` })),
-   photos: Array.from({ length: 9 }, (_, i) => `https://picsum.photos/seed/photo-${i}/120`),
+      { name: "Fernando Alonso", mutualFriends: 3, picture: Alonso },
+      { name: "Heikki Kovalainen", mutualFriends: 2, picture: Kovalainen },
+      { name: "Jenson Button", mutualFriends: 4, picture: Button },
+      { name: "Nico Rosberg", mutualFriends: 5, picture: Rosberg },
+      { name: "Valtteri Bottas", mutualFriends: 4, picture: Bottas },
+      { name: "George Russell", mutualFriends: 6, picture: Russell },
+      { name: "Charles Leclerc", mutualFriends: 3, picture: "https://picsum.photos/seed/charles-leclerc/320/150" },
+   ],
+   photos,
    posts,
 }

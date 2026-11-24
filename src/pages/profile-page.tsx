@@ -17,7 +17,8 @@ const ProfilePage = () => {
 
    const { data: users } = useUsers()
    const { data: userPhotos = [] } = useUserPhotos(profileUserId)
-   const { data: userPosts = [] } = usePosts(profileUserId)
+   const { data: posts = [] } = usePosts()
+   const userPosts = posts.filter((post) => post.userId === profileUserId)
 
    const randomUser = users?.[profileUserId - 1]
    const randomUserFriends = (users ?? [])

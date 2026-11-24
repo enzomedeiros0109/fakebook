@@ -50,14 +50,29 @@ const formatPostedAt = (postedAt: string) => {
    return relativeTimeFormatter.format(-Math.floor(elapsed / unit.milliseconds), unit.unit)
 }
 
+const PAGE_SIZE = 10
+
 const Posts = ({ userId }: Props) => {
    const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
+   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
-   const { data: apiPosts = [] } = usePosts(userId)
+   const { data: apiPosts = [] } = usePosts()
 
-   const visiblePosts = userId === CURRENT_USER.id
-      ? CURRENT_USER.posts
-      : userId === undefined ? [...CURRENT_USER.posts, ...apiPosts] : apiPosts
+   const allPosts = [...CURRENT_USER.posts, ...apiPosts]
+      .filter((post) => userId === undefined || post.userId === userId)
+      .toSorted((a, b) => b.postedAt.localeCompare(a.postedAt))
+   const visiblePosts = allPosts.slice(0, visibleCount)
+
+   const loadMoreRef = (node: HTMLDivElement | null) => {
+      if (!node) return
+
+      const observer = new IntersectionObserver(([entry]) => {
+         if (entry.isIntersecting) setVisibleCount((count) => count + PAGE_SIZE)
+      }, { rootMargin: "400px" })
+
+      observer.observe(node)
+      return () => observer.disconnect()
+   }
 
    const handleLike = (postKey: string) =>
       setLikedPosts((previous) => ({ ...previous, [postKey]: !previous[postKey] }))
@@ -151,6 +166,8 @@ const Posts = ({ userId }: Props) => {
                </article>
             )
          })}
+
+         {visibleCount < allPosts.length && <div ref={loadMoreRef} />}
 
       </div>
    )

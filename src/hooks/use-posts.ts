@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { getPhotos, getPosts } from "@/services/json-placeholder"
-import { CURRENT_USER_ID } from "@/lib/current-user"
+import { shuffle } from "@/lib/utils"
 import { usersQueryOptions } from "./use-users"
 
 const POST_IMAGE_INTERVAL = 3
@@ -20,22 +20,22 @@ export type FeedPost = {
    shares: number
 }
 
-export const usePosts = (userId?: number) => {
+export const usePosts = () => {
    const queryClient = useQueryClient()
 
    return useQuery({
-      queryKey: ["posts", userId],
-      enabled: userId !== CURRENT_USER_ID,
+      queryKey: ["posts"],
+      staleTime: Infinity,
       queryFn: async (): Promise<FeedPost[]> => {
          const [posts, users] = await Promise.all([
-            getPosts(userId),
+            getPosts(),
             queryClient.ensureQueryData(usersQueryOptions()),
          ])
 
          const imageIds = posts.filter(({ id }) => id % POST_IMAGE_INTERVAL === 0).map(({ id }) => id)
          const photos = imageIds.length ? await getPhotos({ id: imageIds }) : []
 
-         return posts.map(({ id, userId, title, body }) => {
+         return shuffle(posts).map(({ id, userId, title, body }, index) => {
             const author = users[userId - 1]
 
             return {
@@ -43,7 +43,7 @@ export const usePosts = (userId?: number) => {
                userId,
                name: `${author.firstName} ${author.lastName}`,
                picture: author.picture.thumbnail,
-               postedAt: new Date(Date.now() - id * 3 * HOUR).toISOString(),
+               postedAt: new Date(Date.now() - (index + 1) * 2 * HOUR).toISOString(),
                title,
                body,
                image: photos.find((photo) => photo.id === id)?.url,
