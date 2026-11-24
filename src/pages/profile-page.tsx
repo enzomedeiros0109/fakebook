@@ -10,7 +10,7 @@ type Props = {
    isOwner: boolean
 }
 
-const Profile = ({ isOwner }: Props) => {
+const ProfilePage = ({ isOwner }: Props) => {
 
    return (
       <div>
@@ -68,4 +68,4 @@ const Profile = ({ isOwner }: Props) => {
    )
 }
 
-export default Profile
+export default ProfilePage

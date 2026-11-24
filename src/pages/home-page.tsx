@@ -4,7 +4,7 @@ import RightIcons from "@/components/layout/home-page/right-icons"
 
 type Props = {}
 
-const Home = ({ }: Props) => {
+const HomePage = ({ }: Props) => {
    return (
       <div>
 
@@ -25,4 +25,4 @@ const Home = ({ }: Props) => {
    )
 }
 
-export default Home
+export default HomePage
