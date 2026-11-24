@@ -2,11 +2,11 @@ import { useState } from "react"
 import { Ellipsis, Plus, Search, Video } from "lucide-react"
 import UserLink from "../user-link"
 import { useUsers } from "@/hooks/use-users"
-import CounterStrike2 from "@/assets/mockup/sponsors/counter-strike-2.png"
-import F1TV from "@/assets/mockup/sponsors/f1-tv.png"
-import Spotify from "@/assets/mockup/sponsors/spotify.png"
-import Duolingo from "@/assets/mockup/sponsors/duolingo.png"
-import GTAVI from "@/assets/mockup/sponsors/gta-vi.png"
+import CounterStrike2 from "@/assets/mockup/sponsors/counter-strike-2.webp"
+import F1TV from "@/assets/mockup/sponsors/f1-tv.webp"
+import Spotify from "@/assets/mockup/sponsors/spotify.webp"
+import Duolingo from "@/assets/mockup/sponsors/duolingo.webp"
+import GTAVI from "@/assets/mockup/sponsors/gta-vi.webp"
 
 type Props = {}
 

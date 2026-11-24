@@ -1,15 +1,15 @@
-import ProfilePicMockup from "@/assets/mockup/profile-page/profile-pic-mockup.png"
-import Alonso from "@/assets/mockup/profile-page/friends/alonso.png"
-import Kovalainen from "@/assets/mockup/profile-page/friends/kovalainen.png"
-import Button from "@/assets/mockup/profile-page/friends/button.png"
-import Rosberg from "@/assets/mockup/profile-page/friends/rosberg.png"
-import Bottas from "@/assets/mockup/profile-page/friends/bottas.png"
-import Russell from "@/assets/mockup/profile-page/friends/russell.png"
+import ProfilePicMockup from "@/assets/mockup/profile-page/profile-pic-mockup.webp"
+import Alonso from "@/assets/mockup/profile-page/friends/alonso.webp"
+import Kovalainen from "@/assets/mockup/profile-page/friends/kovalainen.webp"
+import Button from "@/assets/mockup/profile-page/friends/button.webp"
+import Rosberg from "@/assets/mockup/profile-page/friends/rosberg.webp"
+import Bottas from "@/assets/mockup/profile-page/friends/bottas.webp"
+import Russell from "@/assets/mockup/profile-page/friends/russell.webp"
+import type { FeedPost } from "@/hooks/use-posts"
 
 const photos = Object.values(
-   import.meta.glob<string>("@/assets/mockup/profile-page/photos/*.png", { eager: true, import: "default" }),
+   import.meta.glob<string>("@/assets/mockup/profile-page/photos/*.webp", { eager: true, import: "default" }),
 )
-import type { FeedPost } from "@/hooks/use-posts"
 
 export const CURRENT_USER_ID = 0
 
