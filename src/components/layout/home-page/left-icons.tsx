@@ -1,5 +1,6 @@
 import { Bookmark, Calendar, ChevronDown, CirclePlay, MessageSquare, Newspaper, Store, UsersRound } from "lucide-react"
-import PostAuthor from "../post-author"
+import { CURRENT_USER } from "@/lib/current-user"
+import UserLink from "../user-link"
 
 type Props = {}
 
@@ -17,14 +18,16 @@ const icons = [
 const LeftIcons = ({ }: Props) => {
    return (
       <div className="flex flex-col">
-         <PostAuthor
-            name="Jesse Nichols"
-            className="h-11 px-2 rounded-md hover:bg-blue-500/10 cursor-pointer"
+         <UserLink
+            userId={CURRENT_USER.id}
+            name={`${CURRENT_USER.firstName} ${CURRENT_USER.lastName}`}
+            picture={CURRENT_USER.picture}
+            className="h-11 px-2 rounded-md hover:bg-blue-500/10"
             avatarClassName="size-8"
          />
 
          {icons.map(({ Icon, name }) => (
-            <div key={name} className="flex h-11 gap-3 items-center px-2 rounded-md hover:bg-blue-500/10 cursor-pointer">
+            <div key={name} className="flex h-11 gap-3 items-center px-2 rounded-md hover:bg-blue-500/10 cursor-pointer transition-transform active:scale-95">
                <Icon className="size-6 text-primary" />
                <p className="text-[15px]">{name}</p>
             </div>
