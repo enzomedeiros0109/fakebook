@@ -2,7 +2,9 @@ import { Ellipsis, FaceSlightlySmiling, Globe, Heart, Image, MessageCircle, Shar
 import { Input } from "../ui/input"
 import PostAuthor from "./post-author"
 
-type Props = {}
+type Props = {
+   userId?: number
+}
 
 const writePostIcons = [
    { Icon: Video, name: "Live video", color: "text-destructive" },
@@ -17,6 +19,7 @@ const PostIcons = [
 ]
 
 type Post = {
+   userId: number
    name: string
    postedAt: string
    title: string
@@ -56,6 +59,27 @@ const formatPostedAt = (postedAt: string) => {
 
 export const posts: Post[] = [
    {
+      userId: 1,
+      name: "Lewis Hamilton",
+      postedAt: new Date(Date.now() - 2 * hour).toISOString(),
+      title: "Race week",
+      body: "Back in Maranello getting ready for the weekend. Let's go!",
+      likes: 1840,
+      comments: 312,
+      shares: 96,
+   },
+   {
+      userId: 1,
+      name: "Lewis Hamilton",
+      postedAt: new Date(Date.now() - 3 * day).toISOString(),
+      title: "Simulator day",
+      body: "Long hours in the sim with the team. Every detail counts.",
+      likes: 1205,
+      comments: 148,
+      shares: 41,
+   },
+   {
+      userId: 2,
       name: "Torla",
       postedAt: new Date(Date.now() - 5 * minute).toISOString(),
       title: "Slow afternoon",
@@ -65,6 +89,7 @@ export const posts: Post[] = [
       shares: 2,
    },
    {
+      userId: 3,
       name: "Marina",
       postedAt: new Date(Date.now() - 5 * hour).toISOString(),
       title: "Coffee break",
@@ -75,6 +100,7 @@ export const posts: Post[] = [
       shares: 3,
    },
    {
+      userId: 4,
       name: "Lucas",
       postedAt: new Date(Date.now() - 5 * day).toISOString(),
       title: "Outside for a while",
@@ -84,6 +110,7 @@ export const posts: Post[] = [
       shares: 1,
    },
    {
+      userId: 5,
       name: "Sofia",
       postedAt: new Date(Date.now() - 5 * week).toISOString(),
       title: "Dinner night",
@@ -93,6 +120,7 @@ export const posts: Post[] = [
       shares: 4,
    },
    {
+      userId: 6,
       name: "Andre",
       postedAt: new Date(Date.now() - 5 * year).toISOString(),
       title: "Weekend plans",
@@ -103,32 +131,36 @@ export const posts: Post[] = [
    },
 ]
 
-const Posts = ({ }: Props) => {
+const Posts = ({ userId }: Props) => {
+   const visiblePosts = userId ? posts.filter((post) => post.userId === userId) : posts
+
    return (
       <div className="flex flex-col gap-4">
 
          {/* Write Post Component*/}
-         <div className="flex flex-col gap-3 bg-card rounded-lg p-4 shadow-sm">
+         {!userId ? (
+            <div className="flex flex-col gap-3 bg-card rounded-lg p-4 shadow-sm">
 
-            <div className="flex gap-3 pb-3 items-center border-b">
-               <div className="flex size-10 shrink-0 items-center justify-center rounded-full border">
-                  <User className="size-1/2 text-muted-foreground" />
-               </div>
-               <Input className="h-10 rounded-full border-none bg-secondary px-4 text-[15px]" placeholder="What's on your mind, Jesse?" />
-            </div>
-
-            <div className="flex">
-               {writePostIcons.map(({ Icon, name, color }) => (
-                  <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
-                     <Icon className={`size-4.5 ${color}`} />
-                     <p className="text-sm text-muted-foreground">{name}</p>
+               <div className="flex gap-3 pb-3 items-center border-b">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full border">
+                     <User className="size-1/2 text-muted-foreground" />
                   </div>
-               ))}
+                  <Input className="h-10 rounded-full border-none bg-secondary px-4 text-[15px]" placeholder="What's on your mind, Jesse?" />
+               </div>
+
+               <div className="flex">
+                  {writePostIcons.map(({ Icon, name, color }) => (
+                     <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
+                        <Icon className={`size-4.5 ${color}`} />
+                        <p className="text-sm text-muted-foreground">{name}</p>
+                     </div>
+                  ))}
+               </div>
             </div>
-         </div>
+         ) : null}
 
          {/* Posts Componentes*/}
-         {posts.map((post) => (
+         {visiblePosts.map((post) => (
             <article key={`${post.name}-${post.postedAt}`} className="flex flex-col bg-card rounded-lg shadow-sm overflow-hidden">
 
                <div className="flex items-start justify-between px-4 pt-3">

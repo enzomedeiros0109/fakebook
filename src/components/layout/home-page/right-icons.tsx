@@ -1,5 +1,5 @@
 import { Ellipsis, Plus, Search, Users, Video } from "lucide-react"
-import PostAuthor from "./post-author"
+import PostAuthor from "../post-author"
 import Sponsor from "../../assets/mockup/counter-strike-2.png"
 
 type Props = {}
@@ -94,7 +94,7 @@ const RightIcons = ({ }: Props) => {
             <div className="flex flex-col">
                {[...groups.map(({ name }) => ({ Icon: Users, name })), { Icon: Plus, name: "Create new group" }].map(({ Icon, name }) => (
                   <div key={name} className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer">
-                     <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                     <div className="border flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
                         <Icon className="size-4" />
                      </div>
 

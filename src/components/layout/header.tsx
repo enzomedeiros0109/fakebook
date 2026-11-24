@@ -1,5 +1,5 @@
 import { Input } from "../ui/input"
-import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Store, User2, Users } from "lucide-react"
+import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Search, Store, User2, Users } from "lucide-react"
 
 const centerIcons = [
    { name: "home", Icon: House },
@@ -11,56 +11,62 @@ const centerIcons = [
 
 const Header = () => {
    return (
-      <div className="relative flex bg-header p-2">
-         <div className="flex w-full gap-4 items-center justify-between px-2">
+      <header className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-x-4 gap-y-1 bg-header px-4 py-2">
 
-            {/* Start of header */}
-            <div className="flex gap-2">
-               <h1 className="text-white font-bold text-2xl ">fakebook</h1>
-               <Input
-                  className="border-none bg-white max-w-40"
-                  placeholder="Search users..."
-               />
-            </div>
-
-            {/* Middle of header */}
-            <div className="flex justify-between gap-6">
-               {centerIcons.map(({ name, Icon }) => (
-                  <div key={name} className="flex justify-center p-2 w-15 rounded-sm bg-transparent hover:bg-white/10 cursor-pointer">
-                     <Icon className="size-5 text-white" />
-                  </div>
-               ))}
-            </div>
-
-            {/* End of header */}
-            <div className="flex items-center gap-2">
-               <button
-                  type="button"
-                  aria-label="Messages"
-                  className="flex size-8 cursor-pointer items-center justify-center rounded-sm bg-transparent hover:bg-white/10"
-               >
-                  <MessageCircle className="size-4 text-white" />
-               </button>
-
-               <button
-                  type="button"
-                  aria-label="Notifications"
-                  className="flex size-8 cursor-pointer items-center justify-center rounded-sm bg-transparent hover:bg-white/10"
-               >
-                  <Bell className="size-4 text-white" />
-               </button>
-
-               <button
-                  type="button"
-                  aria-label="Profile"
-                  className="flex size-8 cursor-pointer items-center justify-center rounded-full border hover:bg-white/10"
-               >
-                  <User2 className="size-4 text-white" />
-               </button>
-            </div>
-
+         {/* Start of header */}
+         <div className="flex gap-2 items-center min-w-0">
+            <h1 className="text-white font-bold text-xl sm:text-2xl">fakebook</h1>
+            <Input
+               className="hidden md:block border-none bg-white max-w-40"
+               placeholder="Search users..."
+            />
          </div>
-      </div>
+
+         {/* Middle of header */}
+         <nav className="col-span-2 order-last flex justify-around md:col-span-1 md:order-0 md:gap-6">
+            {centerIcons.map(({ name, Icon }) => (
+               <div key={name} className="flex flex-1 md:flex-none md:w-15 justify-center p-2 rounded-sm bg-transparent hover:bg-white/10 cursor-pointer">
+                  <Icon className="size-5 text-white" />
+               </div>
+            ))}
+         </nav>
+
+         {/* End of header */}
+         <div className="flex items-center justify-end gap-2">
+            <button
+               type="button"
+               aria-label="Search"
+               className="flex md:hidden size-8 cursor-pointer items-center justify-center rounded-sm bg-transparent hover:bg-white/10"
+            >
+               <Search className="size-4 text-white" />
+            </button>
+
+            <button
+               type="button"
+               aria-label="Messages"
+               className="flex size-8 cursor-pointer items-center justify-center rounded-sm bg-transparent hover:bg-white/10"
+            >
+               <MessageCircle className="size-4 text-white" />
+            </button>
+
+            <button
+               type="button"
+               aria-label="Notifications"
+               className="flex size-8 cursor-pointer items-center justify-center rounded-sm bg-transparent hover:bg-white/10"
+            >
+               <Bell className="size-4 text-white" />
+            </button>
+
+            <button
+               type="button"
+               aria-label="Profile"
+               className="flex size-8 cursor-pointer items-center justify-center rounded-full border hover:bg-white/10"
+            >
+               <User2 className="size-4 text-white" />
+            </button>
+         </div>
+
+      </header>
    )
 }
 
