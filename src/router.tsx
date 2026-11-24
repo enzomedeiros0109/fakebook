@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router"
 import App from "./App"
 import HomePage from "./pages/home-page"
+import NotFoundPage from "./pages/not-found-page"
 import ProfilePage from "./pages/profile-page"
 
 export const router = createBrowserRouter([
@@ -10,6 +11,7 @@ export const router = createBrowserRouter([
       children: [
          { index: true, Component: HomePage },
          { path: "profile/:userId?", Component: ProfilePage },
+         { path: "*", Component: NotFoundPage },
       ],
    },
 ])
