@@ -1,14 +1,11 @@
+import { Outlet } from "react-router"
 import Header from "./components/layout/header"
-import ProfilePage from "./pages/profile-page"
 
-function App() {
-  return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      {/* <Home /> */}
-      <ProfilePage isOwner={true}/>
-    </div>
-  )
-}
+const App = () => (
+  <div className="min-h-screen bg-background">
+    <Header />
+    <Outlet />
+  </div>
+)
 
 export default App

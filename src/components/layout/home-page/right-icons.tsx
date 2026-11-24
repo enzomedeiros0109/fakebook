@@ -1,6 +1,6 @@
 import { Ellipsis, Plus, Search, Users, Video } from "lucide-react"
 import PostAuthor from "../post-author"
-import Sponsor from "../../assets/mockup/counter-strike-2.png"
+import Sponsor from "@/assets/mockup/counter-strike-2.png"
 
 type Props = {}
 
