@@ -1,6 +1,9 @@
+import { Suspense } from "react"
 import LeftIcons from "@/components/layout/home-page/left-icons"
 import Posts from "@/components/layout/posts"
 import RightIcons from "@/components/layout/home-page/right-icons"
+import WritePost from "@/components/layout/write-post"
+import PostsSkeleton from "@/components/skeletons/posts-skeleton"
 
 type Props = {}
 
@@ -13,8 +16,11 @@ const HomePage = ({ }: Props) => {
                <LeftIcons />
             </aside>
 
-            <main className="min-w-0">
-               <Posts />
+            <main className="flex flex-col gap-4 min-w-0">
+               <WritePost />
+               <Suspense fallback={<PostsSkeleton />}>
+                  <Posts />
+               </Suspense>
             </main>
 
             <aside className="hidden xl:block">

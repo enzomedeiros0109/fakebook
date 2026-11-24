@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { Ellipsis, Plus, Search, Video } from "lucide-react"
-import UserLink from "../user-link"
-import { useUsers } from "@/hooks/use-users"
+import Contacts from "./contacts"
+import ContactsSkeleton from "@/components/skeletons/contacts-skeleton"
+import SkeletonImage from "@/components/skeletons/skeleton-image"
 import CounterStrike2 from "@/assets/mockup/sponsors/counter-strike-2.webp"
 import F1TV from "@/assets/mockup/sponsors/f1-tv.webp"
 import Spotify from "@/assets/mockup/sponsors/spotify.webp"
@@ -33,7 +34,7 @@ const sponsors = [
       image: Duolingo,
       title: "Learn Italian in 5 minutes a day",
       label: "duolingo.com",
-      url: "duolingo.com",
+      url: "https://www.duolingo.com/",
    },
    {
       image: GTAVI,
@@ -58,7 +59,6 @@ const contactActions = [
 ]
 
 const RightIcons = ({ }: Props) => {
-   const { data: users = [] } = useUsers()
    const [sponsor] = useState(() => sponsors[Math.floor(Math.random() * sponsors.length)])
 
    return (
@@ -93,16 +93,9 @@ const RightIcons = ({ }: Props) => {
             </div>
 
             <div className="flex flex-col">
-               {users.map((user, index) => (
-                  <UserLink
-                     key={user.id}
-                     userId={index + 1}
-                     name={`${user.firstName} ${user.lastName}`}
-                     picture={user.picture.thumbnail}
-                     className="h-11.5 px-1 rounded-md hover:bg-blue-500/10"
-                     avatarClassName="size-8"
-                  />
-               ))}
+               <Suspense fallback={<ContactsSkeleton />}>
+                  <Contacts />
+               </Suspense>
             </div>
          </div>
 
@@ -112,7 +105,7 @@ const RightIcons = ({ }: Props) => {
             <div className="flex flex-col">
                {groups.map(({ name, image }) => (
                   <div key={name} className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer transition-transform active:scale-95">
-                     <img className="size-8 shrink-0 rounded-full border object-cover" src={image} alt={name} />
+                     <SkeletonImage className="size-8 rounded-full border" src={image} alt={name} />
                      <p className="text-[15px]">{name}</p>
                   </div>
                ))}

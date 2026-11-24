@@ -1,4 +1,5 @@
 import { Link } from "react-router"
+import SkeletonImage from "@/components/skeletons/skeleton-image"
 
 type Friend = {
    name: string
@@ -27,7 +28,7 @@ const Friends = ({ friends, total }: Props) => {
             {friends.slice(0, 6).map(({ name, picture, mutualFriends, userId }) => {
                const card = (
                   <>
-                     <img className="h-37.5 w-full border border-foreground/50 rounded-t-lg object-cover" src={picture} alt={name} />
+                     <SkeletonImage className="h-37.5 w-full border border-foreground/50 rounded-t-lg" src={picture} alt={name} />
                      <div className="flex flex-col px-2.5 py-2">
                         <h3 className="text-base">{name}</h3>
                         <p className="text-sm text-muted-foreground">{mutualFriends} mutual friends</p>
