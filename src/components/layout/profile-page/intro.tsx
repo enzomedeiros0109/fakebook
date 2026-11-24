@@ -1,26 +1,38 @@
 import { AtSign, Cake, Calendar, GraduationCap, Mail, MapPin, Phone } from "lucide-react"
 
-type Props = {}
+export type IntroDetails = {
+   location?: string
+   school?: string
+   email?: string
+   phone?: string
+   birthday?: string
+   joined?: string
+   username: string
+}
 
-const introInfos = [
-   { Icon: MapPin, info: "Via Paolo Ferrari, 85, 41121 Modena MO, Itália" },
-   { Icon: GraduationCap, info: "Studied at The John Henry Newman School" },
-   { Icon: Mail, info: "lewis.hamilton@ferrari.com" },
-   { Icon: Phone, info: "+44 20 7946 0144" },
-   { Icon: Cake, info: "Born on January 7, 1985" },
-   { Icon: Calendar, info: "Joined Fakebook on March 2007" },
-   { Icon: AtSign, info: "@lewishamilton" },
-]
+type Props = {
+   details: IntroDetails
+}
 
-const Intro = ({}: Props) => {
+const introRows = [
+   { key: "location", Icon: MapPin, prefix: "" },
+   { key: "school", Icon: GraduationCap, prefix: "Studied at " },
+   { key: "email", Icon: Mail, prefix: "" },
+   { key: "phone", Icon: Phone, prefix: "" },
+   { key: "birthday", Icon: Cake, prefix: "Born on " },
+   { key: "joined", Icon: Calendar, prefix: "Joined Fakebook on " },
+   { key: "username", Icon: AtSign, prefix: "@" },
+] as const
+
+const Intro = ({ details }: Props) => {
   return (
     <div className="flex flex-col p-4 gap-2 bg-card rounded-lg items-start shadow-sm">
       <h1 className="font-bold text-2xl">Intro</h1>
 
-      {introInfos.map( ({Icon, info}) => (
-         <div className="flex gap-2 items-center">
+      {introRows.filter(({ key }) => details[key]).map(({ key, Icon, prefix }) => (
+         <div key={key} className="flex gap-2 items-center">
             <Icon className="size-4"/>
-            <p className="text-sm text-nowrap">{info}</p>
+            <p className="text-sm text-nowrap">{`${prefix}${details[key]}`}</p>
          </div>
       ))}
 

@@ -1,43 +1,54 @@
-import { Ellipsis, Plus, Search, Users, Video } from "lucide-react"
-import PostAuthor from "../post-author"
-import Sponsor from "@/assets/mockup/counter-strike-2.png"
+import { useState } from "react"
+import { Ellipsis, Plus, Search, Video } from "lucide-react"
+import UserLink from "../user-link"
+import { useUsers } from "@/hooks/use-users"
+import CounterStrike2 from "@/assets/mockup/sponsors/counter-strike-2.webp"
+import F1TV from "@/assets/mockup/sponsors/f1-tv.webp"
+import Spotify from "@/assets/mockup/sponsors/spotify.webp"
+import Duolingo from "@/assets/mockup/sponsors/duolingo.webp"
+import GTAVI from "@/assets/mockup/sponsors/gta-vi.webp"
 
 type Props = {}
 
-export const contacts = [
+const sponsors = [
    {
-      name: "Torla",
+      image: CounterStrike2,
+      title: "Counter-Strike 2 Out Now!",
+      label: "steam.com",
+      url: "https://store.steampowered.com/app/730/CounterStrike_2/",
    },
    {
-      name: "Marina",
+      image: F1TV,
+      title: "F1 TV Pro: every session, live",
+      label: "f1tv.formula1.com",
+      url: "https://f1tv.formula1.com/",
    },
    {
-      name: "Lucas",
+      image: Spotify,
+      title: "Spotify Premium: 3 months free",
+      label: "spotify.com",
+      url: "https://open.spotify.com/",
    },
    {
-      name: "Sofia",
+      image: Duolingo,
+      title: "Learn Italian in 5 minutes a day",
+      label: "duolingo.com",
+      url: "duolingo.com",
    },
    {
-      name: "Andre",
+      image: GTAVI,
+      title: "GTA VI Out Now!",
+      label: "rockstargames.com",
+      url: "https://www.rockstargames.com/VI",
    },
 ]
 
 export const groups = [
-   {
-      name: "Turma de 99",
-   },
-   {
-      name: "Turma do Rock",
-   },
-   {
-      name: "Tecnologia e afins",
-   },
-   {
-      name: "Clube do Livro",
-   },
-   {
-      name: "Fofocas dos famosos",
-   },
+   { name: "Turma de 99", image: "https://picsum.photos/seed/turma-de-99/64" },
+   { name: "Turma do Rock", image: "https://picsum.photos/seed/turma-do-rock/64" },
+   { name: "Tecnologia e afins", image: "https://picsum.photos/seed/tecnologia/64" },
+   { name: "Clube do Livro", image: "https://picsum.photos/seed/clube-do-livro/64" },
+   { name: "Fofocas dos famosos", image: "https://picsum.photos/seed/fofocas/64" },
 ]
 
 const contactActions = [
@@ -47,6 +58,9 @@ const contactActions = [
 ]
 
 const RightIcons = ({ }: Props) => {
+   const { data: users = [] } = useUsers()
+   const [sponsor] = useState(() => sponsors[Math.floor(Math.random() * sponsors.length)])
+
    return (
       <div className="flex flex-col gap-5">
 
@@ -54,11 +68,13 @@ const RightIcons = ({ }: Props) => {
             <h2 className="text-[17px] text-muted-foreground">Sponsored</h2>
 
             <div className="flex gap-3 items-center">
-               <img className="size-27.5 shrink-0 rounded-lg object-cover" src={Sponsor} alt="Sponsor image" />
+               <img className="size-27.5 shrink-0 rounded-lg object-cover" src={sponsor.image} alt={sponsor.title} />
 
                <div className="flex flex-col gap-1">
-                  <p className="text-sm">Counter-Strike 2 Out Now!</p>
-                  <p className="text-xs text-muted-foreground">steam.com</p>
+                  <p className="text-sm">{sponsor.title}</p>
+                  <a href={sponsor.url} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline">
+                     {sponsor.label}
+                  </a>
                </div>
             </div>
          </div>
@@ -77,11 +93,13 @@ const RightIcons = ({ }: Props) => {
             </div>
 
             <div className="flex flex-col">
-               {contacts.map((contact) => (
-                  <PostAuthor
-                     key={contact.name}
-                     name={contact.name}
-                     className="h-11.5 px-1 rounded-md hover:bg-blue-500/10 cursor-pointer"
+               {users.map((user, index) => (
+                  <UserLink
+                     key={user.id}
+                     userId={index + 1}
+                     name={`${user.firstName} ${user.lastName}`}
+                     picture={user.picture.thumbnail}
+                     className="h-11.5 px-1 rounded-md hover:bg-blue-500/10"
                      avatarClassName="size-8"
                   />
                ))}
@@ -92,15 +110,19 @@ const RightIcons = ({ }: Props) => {
             <h2 className="text-[17px] text-muted-foreground">Group conversations</h2>
 
             <div className="flex flex-col">
-               {[...groups.map(({ name }) => ({ Icon: Users, name })), { Icon: Plus, name: "Create new group" }].map(({ Icon, name }) => (
-                  <div key={name} className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer">
-                     <div className="border flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
-                        <Icon className="size-4" />
-                     </div>
-
+               {groups.map(({ name, image }) => (
+                  <div key={name} className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer transition-transform active:scale-95">
+                     <img className="size-8 shrink-0 rounded-full border object-cover" src={image} alt={name} />
                      <p className="text-[15px]">{name}</p>
                   </div>
                ))}
+
+               <div className="flex h-11.5 gap-3 items-center px-1 rounded-md hover:bg-blue-500/10 cursor-pointer transition-transform active:scale-95">
+                  <div className="border flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                     <Plus className="size-4" />
+                  </div>
+                  <p className="text-[15px]">Create new group</p>
+               </div>
             </div>
          </div>
 

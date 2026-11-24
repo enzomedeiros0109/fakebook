@@ -1,6 +1,11 @@
-import { Ellipsis, FaceSlightlySmiling, Globe, Heart, Image, MessageCircle, Share2, ThumbsUp, User, Video } from "lucide-react"
+import { useState } from "react"
+import { Ellipsis, FaceSlightlySmiling, Globe, Heart, Image, MessageCircle, Share2, ThumbsUp, Video } from "lucide-react"
+import { Avatar, AvatarImage } from "../ui/avatar"
 import { Input } from "../ui/input"
-import PostAuthor from "./post-author"
+import { usePosts } from "@/hooks/use-posts"
+import { CURRENT_USER } from "@/lib/current-user"
+import { cn } from "@/lib/utils"
+import UserLink from "./user-link"
 
 type Props = {
    userId?: number
@@ -17,18 +22,6 @@ const PostIcons = [
    { Icon: MessageCircle, name: "Comment" },
    { Icon: Share2, name: "Share" },
 ]
-
-type Post = {
-   userId: number
-   name: string
-   postedAt: string
-   title: string
-   body: string
-   image?: string
-   likes: number
-   comments: number
-   shares: number
-}
 
 const minute = 60 * 1000
 const hour = 60 * minute
@@ -57,100 +50,50 @@ const formatPostedAt = (postedAt: string) => {
    return relativeTimeFormatter.format(-Math.floor(elapsed / unit.milliseconds), unit.unit)
 }
 
-export const posts: Post[] = [
-   {
-      userId: 1,
-      name: "Lewis Hamilton",
-      postedAt: new Date(Date.now() - 2 * hour).toISOString(),
-      title: "Race week",
-      body: "Back in Maranello getting ready for the weekend. Let's go!",
-      likes: 1840,
-      comments: 312,
-      shares: 96,
-   },
-   {
-      userId: 1,
-      name: "Lewis Hamilton",
-      postedAt: new Date(Date.now() - 3 * day).toISOString(),
-      title: "Simulator day",
-      body: "Long hours in the sim with the team. Every detail counts.",
-      likes: 1205,
-      comments: 148,
-      shares: 41,
-   },
-   {
-      userId: 2,
-      name: "Torla",
-      postedAt: new Date(Date.now() - 5 * minute).toISOString(),
-      title: "Slow afternoon",
-      body: "Enjoying a quiet afternoon with a good book.",
-      likes: 24,
-      comments: 5,
-      shares: 2,
-   },
-   {
-      userId: 3,
-      name: "Marina",
-      postedAt: new Date(Date.now() - 5 * hour).toISOString(),
-      title: "Coffee break",
-      body: "Found a new favorite spot for coffee today!",
-      image: "https://picsum.photos/seed/fakebook/680/360",
-      likes: 38,
-      comments: 8,
-      shares: 3,
-   },
-   {
-      userId: 4,
-      name: "Lucas",
-      postedAt: new Date(Date.now() - 5 * day).toISOString(),
-      title: "Outside for a while",
-      body: "A little fresh air makes a big difference.",
-      likes: 17,
-      comments: 2,
-      shares: 1,
-   },
-   {
-      userId: 5,
-      name: "Sofia",
-      postedAt: new Date(Date.now() - 5 * week).toISOString(),
-      title: "Dinner night",
-      body: "Made dinner for friends and it was a success.",
-      likes: 52,
-      comments: 11,
-      shares: 4,
-   },
-   {
-      userId: 6,
-      name: "Andre",
-      postedAt: new Date(Date.now() - 5 * year).toISOString(),
-      title: "Weekend plans",
-      body: "Explore somewhere new.",
-      likes: 31,
-      comments: 6,
-      shares: 2,
-   },
-]
+const PAGE_SIZE = 10
 
 const Posts = ({ userId }: Props) => {
-   const visiblePosts = userId ? posts.filter((post) => post.userId === userId) : posts
+   const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({})
+   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+
+   const { data: apiPosts = [] } = usePosts()
+
+   const allPosts = [...CURRENT_USER.posts, ...apiPosts]
+      .filter((post) => userId === undefined || post.userId === userId)
+      .toSorted((a, b) => b.postedAt.localeCompare(a.postedAt))
+   const visiblePosts = allPosts.slice(0, visibleCount)
+
+   const loadMoreRef = (node: HTMLDivElement | null) => {
+      if (!node) return
+
+      const observer = new IntersectionObserver(([entry]) => {
+         if (entry.isIntersecting) setVisibleCount((count) => count + PAGE_SIZE)
+      }, { rootMargin: "400px" })
+
+      observer.observe(node)
+      return () => observer.disconnect()
+   }
+
+   const handleLike = (postKey: string) =>
+      setLikedPosts((previous) => ({ ...previous, [postKey]: !previous[postKey] }))
 
    return (
       <div className="flex flex-col gap-4">
 
          {/* Write Post Component*/}
-         {!userId ? (
+         {userId === undefined ? (
             <div className="flex flex-col gap-3 bg-card rounded-lg p-4 shadow-sm">
 
                <div className="flex gap-3 pb-3 items-center border-b">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full border">
-                     <User className="size-1/2 text-muted-foreground" />
-                  </div>
-                  <Input className="h-10 rounded-full border-none bg-secondary px-4 text-[15px]" placeholder="What's on your mind, Jesse?" />
+                  <Avatar className="size-10">
+                     <AvatarImage src={CURRENT_USER.picture} alt={CURRENT_USER.firstName} />
+                  </Avatar>
+                  <Input className="h-10 rounded-full border-none bg-secondary px-4 text-[15px]" placeholder={`What's on your mind, ${CURRENT_USER.firstName}?`} />
                </div>
 
                <div className="flex">
                   {writePostIcons.map(({ Icon, name, color }) => (
-                     <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
+                     <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer transition-transform active:scale-95">
                         <Icon className={`size-4.5 ${color}`} />
                         <p className="text-sm text-muted-foreground">{name}</p>
                      </div>
@@ -160,53 +103,71 @@ const Posts = ({ userId }: Props) => {
          ) : null}
 
          {/* Posts Componentes*/}
-         {visiblePosts.map((post) => (
-            <article key={`${post.name}-${post.postedAt}`} className="flex flex-col bg-card rounded-lg shadow-sm overflow-hidden">
+         {visiblePosts.map((post) => {
+            const postKey = `${post.userId}-${post.id}`
+            const isLiked = Boolean(likedPosts[postKey])
 
-               <div className="flex items-start justify-between px-4 pt-3">
-                  <PostAuthor name={post.name}>
-                     <div className="flex gap-1 items-center text-xs text-muted-foreground">
-                        <time dateTime={post.postedAt}>{formatPostedAt(post.postedAt)}</time>
-                        <Globe className="size-3" />
-                     </div>
-                  </PostAuthor>
+            return (
+               <article key={postKey} className="flex flex-col bg-card rounded-lg shadow-sm overflow-hidden">
 
-                  <button type="button" aria-label="Post options" className="flex size-8 items-center justify-center rounded-full hover:bg-blue-500/10 cursor-pointer">
-                     <Ellipsis className="size-5 text-muted-foreground" />
-                  </button>
-               </div>
+                  <div className="flex items-start justify-between px-4 pt-3">
+                     <UserLink userId={post.userId} name={post.name} picture={post.picture}>
+                        <div className="flex gap-1 items-center text-xs text-muted-foreground">
+                           <time dateTime={post.postedAt}>{formatPostedAt(post.postedAt)}</time>
+                           <Globe className="size-3" />
+                        </div>
+                     </UserLink>
 
-               <div className="flex flex-col gap-1.5 px-4 py-3 text-[15px]">
-                  <p>{post.title}</p>
-                  <p>{post.body}</p>
-               </div>
-
-               {post.image && <img className="w-full object-cover" src={post.image} alt="" />}
-
-               <div className="flex justify-between px-4 py-2.5 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                     <ThumbsUp className="size-3.5 text-primary" />
-                     <Heart className="size-3.5 text-destructive" />
-                     <p>{post.likes}</p>
+                     <button type="button" aria-label="Post options" className="flex size-8 items-center justify-center rounded-full hover:bg-blue-500/10 cursor-pointer">
+                        <Ellipsis className="size-5 text-muted-foreground" />
+                     </button>
                   </div>
 
-                  <div className="flex gap-2">
-                     <p>{`${post.comments} Comments`}</p>
-                     <p>{`${post.shares} Shares`}</p>
+                  <div className="flex flex-col gap-1.5 px-4 py-3 text-[15px]">
+                     <p>{post.title}</p>
+                     <p>{post.body}</p>
                   </div>
-               </div>
 
-               <div className="flex mx-4 py-1 border-t">
-                  {PostIcons.map(({ Icon, name }) => (
-                     <div key={name} className="flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer">
-                        <Icon className="size-4.5 text-muted-foreground" />
-                        <p className="text-[15px] text-muted-foreground">{name}</p>
+                  {post.image && <img className="w-full object-cover" src={post.image} alt="" />}
+
+                  <div className="flex items-center justify-between px-4 py-2.5 text-sm text-muted-foreground">
+                     <div className="flex items-center gap-1">
+                        <ThumbsUp className="size-3.5 shrink-0 text-primary" />
+                        <Heart className="size-3.5 shrink-0 text-destructive" />
+                        <span className="leading-none">{post.likes + (isLiked ? 1 : 0)}</span>
                      </div>
-                  ))}
-               </div>
 
-            </article>
-         ))}
+                     <div className="flex gap-2">
+                        <p>{`${post.comments} Comments`}</p>
+                        <p>{`${post.shares} Shares`}</p>
+                     </div>
+                  </div>
+
+                  <div className="flex mx-4 py-1 border-t">
+                     {PostIcons.map(({ Icon, name }) => {
+                        const isLikeButton = name === "Like"
+                        const isActive = isLikeButton && isLiked
+
+                        return (
+                           <button
+                              key={name}
+                              type="button"
+                              aria-pressed={isLikeButton ? isLiked : undefined}
+                              onClick={isLikeButton ? () => handleLike(postKey) : undefined}
+                              className={cn("flex flex-1 h-9 gap-2 items-center justify-center rounded-md hover:bg-blue-500/10 cursor-pointer text-muted-foreground transition-transform active:scale-95", isActive && "text-primary")}
+                           >
+                              <Icon className={cn("size-4.5", isActive && "fill-primary")} />
+                              <span className="text-[15px]">{name}</span>
+                           </button>
+                        )
+                     })}
+                  </div>
+
+               </article>
+            )
+         })}
+
+         {visibleCount < allPosts.length && <div ref={loadMoreRef} />}
 
       </div>
    )

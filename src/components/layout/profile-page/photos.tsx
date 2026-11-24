@@ -1,8 +1,8 @@
-type Props = {}
+type Props = {
+   photos: string[]
+}
 
-const photos = Array.from({ length: 9 }, (_, i) => `https://picsum.photos/seed/photo-${i}/120`)
-
-const Photos = ({}: Props) => {
+const Photos = ({ photos }: Props) => {
    return (
       <div className="flex flex-col p-4 gap-2 bg-card rounded-lg items-start shadow-sm">
          <div className="flex w-full justify-between items-center">
@@ -11,7 +11,7 @@ const Photos = ({}: Props) => {
          </div>
 
          <div className="grid grid-cols-3 gap-x-1 gap-y-2.5">
-            {photos.map((src) => (
+            {photos.slice(0, 9).map((src) => (
                <img key={src} className="size-30 rounded-sm object-cover" src={src} alt="Photo" />
             ))}
          </div>

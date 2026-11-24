@@ -11,7 +11,7 @@ export const userSchema = z
          street: z.object(
             {
                number: z.number(),
-               name: z.string()
+               name: z.string().trim()
             }),
          city: z.string(),
          state: z.string(),
