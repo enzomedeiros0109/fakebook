@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Ellipsis, Plus, Search, Video } from "lucide-react"
 import UserLink from "../user-link"
+import { useUsers } from "@/hooks/use-users"
 import CounterStrike2 from "@/assets/mockup/sponsors/counter-strike-2.png"
 import F1TV from "@/assets/mockup/sponsors/f1-tv.png"
 import Spotify from "@/assets/mockup/sponsors/spotify.png"
@@ -42,14 +43,6 @@ const sponsors = [
    },
 ]
 
-export const contacts = [
-   { userId: 2, name: "Torla", picture: "https://randomuser.me/api/portraits/thumb/women/12.jpg" },
-   { userId: 3, name: "Marina", picture: "https://randomuser.me/api/portraits/thumb/women/44.jpg" },
-   { userId: 4, name: "Lucas", picture: "https://randomuser.me/api/portraits/thumb/men/32.jpg" },
-   { userId: 5, name: "Sofia", picture: "https://randomuser.me/api/portraits/thumb/women/68.jpg" },
-   { userId: 6, name: "Andre", picture: "https://randomuser.me/api/portraits/thumb/men/51.jpg" },
-]
-
 export const groups = [
    { name: "Turma de 99", image: "https://picsum.photos/seed/turma-de-99/64" },
    { name: "Turma do Rock", image: "https://picsum.photos/seed/turma-do-rock/64" },
@@ -65,6 +58,7 @@ const contactActions = [
 ]
 
 const RightIcons = ({ }: Props) => {
+   const { data: users = [] } = useUsers()
    const [sponsor] = useState(() => sponsors[Math.floor(Math.random() * sponsors.length)])
 
    return (
@@ -99,12 +93,12 @@ const RightIcons = ({ }: Props) => {
             </div>
 
             <div className="flex flex-col">
-               {contacts.map((contact) => (
+               {users.map((user, index) => (
                   <UserLink
-                     key={contact.userId}
-                     userId={contact.userId}
-                     name={contact.name}
-                     picture={contact.picture}
+                     key={user.id}
+                     userId={index + 1}
+                     name={`${user.firstName} ${user.lastName}`}
+                     picture={user.picture.thumbnail}
                      className="h-11.5 px-1 rounded-md hover:bg-blue-500/10"
                      avatarClassName="size-8"
                   />
