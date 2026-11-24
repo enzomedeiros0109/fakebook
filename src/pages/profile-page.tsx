@@ -3,14 +3,15 @@ import Friends from "@/components/layout/profile-page/friends"
 import Intro from "@/components/layout/profile-page/intro"
 import Photos from "@/components/layout/profile-page/photos"
 import { Button } from "@/components/ui/button"
+import { CURRENT_USER_ID } from "@/lib/current-user"
 import { MessageCircle, Pen, Plus, PlusCircle } from "lucide-react"
+import { useParams } from "react-router"
 import ProfilePicMockup from '../assets/mockup/profile-pic-mockup.png'
 
-type Props = {
-   isOwner: boolean
-}
-
-const ProfilePage = ({ isOwner }: Props) => {
+const ProfilePage = () => {
+   const { userId } = useParams()
+   const profileUserId = userId ? Number(userId) : CURRENT_USER_ID
+   const isOwner = profileUserId === CURRENT_USER_ID
 
    return (
       <div>
@@ -61,7 +62,7 @@ const ProfilePage = ({ isOwner }: Props) => {
 
             <main className="flex flex-col gap-4 min-w-0">
                <Friends />
-               <Posts userId={1} />
+               <Posts userId={profileUserId} />
             </main>
          </div>
       </div>
