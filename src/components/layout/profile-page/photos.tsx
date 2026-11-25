@@ -1,3 +1,5 @@
+import SkeletonImage from "@/components/skeletons/skeleton-image"
+
 type Props = {
    photos: string[]
 }
@@ -12,7 +14,7 @@ const Photos = ({ photos }: Props) => {
 
          <div className="grid grid-cols-3 gap-x-1 gap-y-2.5">
             {photos.slice(0, 9).map((src) => (
-               <img key={src} className="size-30 rounded-sm object-cover" src={src} alt="Photo" />
+               <SkeletonImage key={src} className="size-30 rounded-sm" src={src} alt="Photo" />
             ))}
          </div>
       </div>

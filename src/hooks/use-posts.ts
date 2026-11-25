@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { getPhotos, getPosts } from "@/services/json-placeholder"
 import { shuffle } from "@/lib/utils"
 import { usersQueryOptions } from "./use-users"
@@ -23,7 +23,7 @@ export type FeedPost = {
 export const usePosts = () => {
    const queryClient = useQueryClient()
 
-   return useQuery({
+   return useSuspenseQuery({
       queryKey: ["posts"],
       staleTime: Infinity,
       queryFn: async (): Promise<FeedPost[]> => {
