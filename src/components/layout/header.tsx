@@ -1,6 +1,8 @@
 import { Link } from "react-router"
 import { Input } from "../ui/input"
-import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Search, Store, User2, Users } from "lucide-react"
+import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Search, Store, Users } from "lucide-react"
+import { CURRENT_USER } from "@/lib/current-user"
+import UserLink from "./user-link"
 
 const centerIcons = [
    { name: "home", Icon: House, to: "/" },
@@ -68,13 +70,12 @@ const Header = () => {
                <Bell className="size-4 text-white" />
             </button>
 
-            <button
-               type="button"
-               aria-label="Profile"
-               className="flex size-8 cursor-pointer items-center justify-center rounded-full border hover:bg-white/10"
-            >
-               <User2 className="size-4 text-white" />
-            </button>
+            <UserLink
+               userId={CURRENT_USER.id}
+               picture={CURRENT_USER.picture}
+               className="h-11 rounded-md hover:bg-blue-500/10"
+               avatarClassName="size-8"
+            />
          </div>
 
       </header>

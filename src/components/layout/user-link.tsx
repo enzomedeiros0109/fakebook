@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 
 type Props = {
    userId: number
-   name: string
+   name?: string
    picture: string
    children?: ReactNode
    className?: string
@@ -27,15 +27,17 @@ const UserLink = ({ userId, name, picture, children, className, avatarClassName,
             <AvatarImage src={picture} alt={name} onLoadingStatusChange={(status) => setHasImageError(status === "error")} />
             <AvatarFallback>
                {hasImageError
-                  ? name.split(" ").map((word) => word[0]).join("").slice(0, 2)
+                  ? name?.split(" ").map((word) => word[0]).join("").slice(0, 2)
                   : <Skeleton className="size-full rounded-full" />}
             </AvatarFallback>
          </Avatar>
 
-         <div className="flex flex-col">
-            <p className={cn("text-[15px]", nameClassName)}>{name}</p>
-            {children}
-         </div>
+         {name ? (
+            <div className="flex flex-col">
+               <p className={cn("text-[15px]", nameClassName)}>{name}</p>
+               {children}
+            </div>
+         ) : null}
       </Link>
    )
 }
