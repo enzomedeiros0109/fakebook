@@ -85,8 +85,8 @@ const PostList = ({ posts }: Props) => {
                   </div>
 
                   <div className="flex flex-col gap-1.5 px-4 py-3 text-[15px]">
-                     <p>{post.title}</p>
-                     <p>{post.body}</p>
+                     {post.title && <p>{post.title}</p>}
+                     <p className="whitespace-pre-line wrap-break-word">{post.body}</p>
                   </div>
 
                   {post.image && <SkeletonImage className="aspect-square w-full" src={post.image} alt={post.title} />}

@@ -45,7 +45,7 @@ export const usePosts = () => {
                picture: author.picture.thumbnail,
                postedAt: new Date(Date.now() - (index + 1) * 2 * HOUR).toISOString(),
                title,
-               body,
+               body: body.replaceAll("\n", " "),
                image: photos.find((photo) => photo.id === id)?.url,
                likes: (id * 37) % 480 + 20,
                comments: (id * 13) % 60 + 1,
