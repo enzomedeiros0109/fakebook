@@ -28,6 +28,7 @@ Then open http://localhost:5173.
 - [TanStack Query](https://tanstack.com/query)
 - [axios](https://axios-http.com)
 - [zod](https://zod.dev)
+- [React Hook Form](https://react-hook-form.com) + [@hookform/resolvers](https://github.com/react-hook-form/resolvers)
 - [Tailwind CSS](https://tailwindcss.com)
 - [shadcn/ui](https://ui.shadcn.com) (on [Base UI](https://base-ui.com))
 - [lucide-react](https://lucide.dev)

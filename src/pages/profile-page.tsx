@@ -5,6 +5,7 @@ import Photos from "@/components/layout/profile-page/photos"
 import ProfileView from "@/components/layout/profile-page/profile-view"
 import UserProfile from "@/components/layout/profile-page/user-profile"
 import ProfileSkeleton from "@/components/skeletons/profile-skeleton"
+import { useCreatedPosts } from "@/hooks/use-created-posts"
 import { CURRENT_USER, CURRENT_USER_ID } from "@/lib/current-user"
 
 const ownerProfile = {
@@ -18,6 +19,7 @@ const ownerProfile = {
 
 const ProfilePage = () => {
    const { userId } = useParams()
+   const { data: createdPosts } = useCreatedPosts()
    const profileUserId = userId ? Number(userId) : CURRENT_USER_ID
 
    if (profileUserId === CURRENT_USER_ID) {
@@ -26,7 +28,7 @@ const ProfilePage = () => {
             isOwner
             profile={ownerProfile}
             photos={<Photos photos={CURRENT_USER.photos} />}
-            posts={<PostList posts={CURRENT_USER.posts} />}
+            posts={<PostList posts={[...createdPosts, ...CURRENT_USER.posts]} />}
          />
       )
    }
