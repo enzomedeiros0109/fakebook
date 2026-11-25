@@ -1,6 +1,6 @@
 import { Link } from "react-router"
 import { Input } from "../ui/input"
-import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Search, Store, User2, Users } from "lucide-react"
+import { Bell, CirclePlay, Gamepad2, House, MessageCircle, Search, Store, Users } from "lucide-react"
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { CURRENT_USER } from "@/lib/current-user"
 
